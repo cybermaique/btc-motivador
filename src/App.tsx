@@ -82,7 +82,7 @@ function estimateCalendarDaysToReachGoal(
 }
 
 export default function App() {
-  const CURRENT_DATE = new Date();
+  const CURRENT_DATE = useMemo(() => new Date(), []);
 
   const totalWorkingDays = useMemo(
     () => getWorkingDaysBetweenDates(START_DATE, CURRENT_DATE),
