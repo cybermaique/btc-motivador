@@ -122,7 +122,7 @@ export default function App() {
     dailyRate
   );
 
-  // Para o gráfico de valores
+  // Para o gráfico de valores.
   const valueChartData = {
     labels: ["Conquistado", "Restante"],
     datasets: [
