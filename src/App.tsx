@@ -20,6 +20,7 @@ const BTC_BOTTOM_DATE = new Date("2026-10-17");
 const TARGET_GOAL_BRL = 6000000;
 
 const HOLIDAYS = [
+  "2025-04-18",
   "2025-04-21",
   "2025-05-01",
   "2025-09-07",
@@ -89,8 +90,25 @@ export default function App() {
   );
 
   const dailySavings = MONTHLY_SAVINGS_BRL / DAYS_PER_MONTH;
-  const totalSavedBRL = dailySavings * totalWorkingDays;
+  const now = new Date();
+  const isWorkingDay =
+    now.getDay() !== 0 && now.getDay() !== 6 && !isHoliday(now);
+
+  let hoursWorkedToday = 0;
+  if (isWorkingDay) {
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    const totalMinutes =
+      Math.min(Math.max(hour - 8, 0), HOURS_PER_DAY) * 60 +
+      (hour >= 8 && hour < 17 ? minute : 0);
+    hoursWorkedToday = Math.min(totalMinutes / 60, HOURS_PER_DAY);
+  }
+
+  const totalHoursWorked = totalWorkingDays * HOURS_PER_DAY + hoursWorkedToday;
+  const totalSavedBRL =
+    (MONTHLY_SAVINGS_BRL / HOURS_PER_MONTH) * totalHoursWorked;
   const totalProjectedBRL = totalSavedBRL * BTC_MULTIPLIER;
+
   const totalSavedUSD = totalSavedBRL / DOLLAR_EXCHANGE_RATE;
   const estimatedBTC = totalSavedUSD / BTC_BOTTOM_PRICE;
 
