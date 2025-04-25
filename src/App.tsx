@@ -6,7 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const MONTHLY_SAVINGS_BRL = 20000;
+const MONTHLY_SAVINGS_BRL = 10000;
 const DOLLAR_EXCHANGE_RATE = 5.8;
 const BTC_BOTTOM_PRICE = 40000;
 const BTC_TARGET_PRICE = 1000000;
@@ -14,10 +14,11 @@ const HOURS_PER_DAY = 8;
 const DAYS_PER_MONTH = 22;
 const HOURS_PER_MONTH = HOURS_PER_DAY * DAYS_PER_MONTH;
 const BTC_MULTIPLIER = BTC_TARGET_PRICE / BTC_BOTTOM_PRICE;
+const INITIAL_INVESTMENT_BRL = 120000;
 
-const START_DATE = new Date("2025-04-17");
+const START_DATE = new Date("2025-03-25");
 const BTC_BOTTOM_DATE = new Date("2026-10-17");
-const TARGET_GOAL_BRL = 6000000;
+const TARGET_GOAL_BRL = 15000000;
 
 const HOLIDAYS = [
   "2025-04-18",
@@ -105,8 +106,9 @@ export default function App() {
   }
 
   const totalHoursWorked = totalWorkingDays * HOURS_PER_DAY + hoursWorkedToday;
-  const totalSavedBRL =
+  const savedFromWorkBRL =
     (MONTHLY_SAVINGS_BRL / HOURS_PER_MONTH) * totalHoursWorked;
+  const totalSavedBRL = savedFromWorkBRL + INITIAL_INVESTMENT_BRL;
   const totalProjectedBRL = totalSavedBRL * BTC_MULTIPLIER;
 
   const totalSavedUSD = totalSavedBRL / DOLLAR_EXCHANGE_RATE;
@@ -206,7 +208,7 @@ export default function App() {
       </Typography>
 
       <Typography variant="h4" component="h1" gutterBottom>
-        Rumo aos R$6.000.000
+        Rumo aos R$15.000.000
       </Typography>
 
       <Typography variant="h3" className="total-projection">
@@ -221,6 +223,10 @@ export default function App() {
           <CardContent>
             <Typography variant="h6">Próximos Marcos</Typography>{" "}
             <p>
+              Investimento inicial:{" "}
+              <strong>R$ {INITIAL_INVESTMENT_BRL.toLocaleString()}</strong>
+            </p>
+            <p>
               Dias úteis trabalhados até hoje:{" "}
               <strong>{totalWorkingDays}</strong>
             </p>
@@ -233,7 +239,7 @@ export default function App() {
               <strong>{daysUntilBottomBTC > 0 ? daysUntilBottomBTC : 0}</strong>
             </p>
             <p>
-              Dias corridos estimados até R$6.000.000:{" "}
+              Dias corridos estimados até R$15.000.000:{" "}
               <strong>{estimatedCalendarDaysToGoal}</strong>
             </p>
           </CardContent>
@@ -264,7 +270,7 @@ export default function App() {
               <strong>R$ {MONTHLY_SAVINGS_BRL.toLocaleString()}</strong> por mês
             </p>
             <p>
-              Data inicial: <strong>17/04/2025</strong>
+              Data inicial: <strong>25/03/2025</strong>
             </p>
             <p>
               Meta de compra: <strong>26/10/2026</strong>
